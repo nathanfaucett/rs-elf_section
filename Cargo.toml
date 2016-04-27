@@ -1,14 +1,14 @@
 [package]
-name = "elf_sections"
+name = "elf_section"
 version = "0.1.0"
 authors = ["nathanfaucett <nathanfaucett@gmail.com>"]
 
-keywords = ["elf", "sections"]
-description = "elf sections"
+keywords = ["elf", "section"]
+description = "elf section"
 license = "MIT"
 readme = "README.md"
-repository = "https://github.com/nathanfaucett/rs-elf_sections.git"
-homepage = "https://github.com/nathanfaucett/rs-elf_sections"
+repository = "https://github.com/nathanfaucett/rs-elf_section.git"
+homepage = "https://github.com/nathanfaucett/rs-elf_section"
 
 [dependencies.bitflags]
 version = "0.6.0"

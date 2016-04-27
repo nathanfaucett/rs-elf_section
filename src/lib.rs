@@ -1,6 +1,22 @@
 #![no_std]
 
 
+pub type ElfHalf = u16;
+pub type ElfWord = u32;
+pub type ElfXword = u64;
+
+
+#[cfg(target_pointer_width = "32")]
+pub type ElfAddress = u32;
+#[cfg(target_pointer_width = "64")]
+pub type ElfAddress = u64;
+
+#[cfg(target_pointer_width = "32")]
+pub type ElfOffset = u32;
+#[cfg(target_pointer_width = "64")]
+pub type ElfOffset = u64;
+
+
 #[macro_use]
 extern crate bitflags;
 
@@ -8,31 +24,30 @@ extern crate bitflags;
 #[derive(Debug)]
 #[repr(C)]
 pub struct ElfSection {
-    name: u32,
-    typ: u32,
-    flags: u64,
-    address: u64,
-    offset: u64,
-    size: u64,
-    link: u32,
-    info: u32,
-    address_align: u64,
-    entry_size: u64,
+    name: ElfWord,
+    typ: ElfWord,
+    flags: ElfOffset,
+    address: ElfAddress,
+    offset: ElfOffset,
+    size: ElfOffset,
+    link: ElfWord,
+    info: ElfWord,
+    address_align: ElfOffset,
+    entry_size: ElfOffset,
 }
 
 impl ElfSection {
-
     pub fn new(
-        name: u32,
-        typ: u32,
-        flags: u64,
-        address: u64,
-        offset: u64,
-        size: u64,
-        link: u32,
-        info: u32,
-        address_align: u64,
-        entry_size: u64,
+        name: ElfWord,
+        typ: ElfWord,
+        flags: ElfOffset,
+        address: ElfAddress,
+        offset: ElfOffset,
+        size: ElfOffset,
+        link: ElfWord,
+        info: ElfWord,
+        address_align: ElfOffset,
+        entry_size: ElfOffset,
     ) -> Self {
         ElfSection {
             name: name,
@@ -48,15 +63,15 @@ impl ElfSection {
         }
     }
 
-    pub fn get_name(&self) -> u32 { self.name }
-    pub fn get_type(&self) -> u32 { self.typ }
-    pub fn get_address(&self) -> u64 { self.address }
-    pub fn get_offset(&self) -> u64 { self.offset }
-    pub fn get_size(&self) -> u64 { self.size }
-    pub fn get_link(&self) -> u32 { self.link }
-    pub fn get_info(&self) -> u32 { self.info }
-    pub fn get_address_align(&self) -> u64 { self.address_align }
-    pub fn get_entry_size(&self) -> u64 { self.entry_size }
+    pub fn get_name(&self) -> ElfWord { self.name }
+    pub fn get_type(&self) -> ElfWord { self.typ }
+    pub fn get_address(&self) -> ElfAddress { self.address }
+    pub fn get_offset(&self) -> ElfOffset { self.offset }
+    pub fn get_size(&self) -> ElfOffset { self.size }
+    pub fn get_link(&self) -> ElfWord { self.link }
+    pub fn get_info(&self) -> ElfWord { self.info }
+    pub fn get_address_align(&self) -> ElfOffset { self.address_align }
+    pub fn get_entry_size(&self) -> ElfOffset { self.entry_size }
 
     pub fn get_start_address(&self) -> usize {
         self.address as usize
@@ -98,7 +113,6 @@ pub struct ElfSectionIter {
 }
 
 impl ElfSectionIter {
-    
     pub fn new(
         current_section: &'static ElfSection,
         remaining_sections: u32,
@@ -132,7 +146,7 @@ impl Iterator for ElfSectionIter {
 }
 
 bitflags! {
-    pub flags ElfSectionFlags: u64 {
+    pub flags ElfSectionFlags: ::ElfAddress {
         const ELF_SECTION_WRITABLE = 0x1,
         const ELF_SECTION_ALLOCATED = 0x2,
         const ELF_SECTION_EXECUTABLE = 0x4,
