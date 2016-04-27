@@ -21,6 +21,33 @@ pub struct ElfSection {
 }
 
 impl ElfSection {
+
+    pub fn new(
+        name: u32,
+        typ: u32,
+        flags: u64,
+        address: u64,
+        offset: u64,
+        size: u64,
+        link: u32,
+        info: u32,
+        address_align: u64,
+        entry_size: u64,
+    ) -> Self {
+        ElfSection {
+            name: name,
+            typ: typ,
+            flags: flags,
+            address: address,
+            offset: offset,
+            size: size,
+            link: link,
+            info: info,
+            address_align: address_align,
+            entry_size: entry_size,
+        }
+    }
+
     pub fn get_name(&self) -> u32 { self.name }
     pub fn get_type(&self) -> u32 { self.typ }
     pub fn get_address(&self) -> u64 { self.address }
@@ -68,6 +95,21 @@ pub struct ElfSectionIter {
     current_section: &'static ElfSection,
     remaining_sections: u32,
     entry_size: u32,
+}
+
+impl ElfSectionIter {
+    
+    pub fn new(
+        current_section: &'static ElfSection,
+        remaining_sections: u32,
+        entry_size: u32,
+    ) -> Self {
+        ElfSectionIter {
+            current_section: current_section,
+            remaining_sections: remaining_sections,
+            entry_size: entry_size,
+        }
+    }
 }
 
 impl Iterator for ElfSectionIter {
