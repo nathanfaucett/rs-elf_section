@@ -25,6 +25,7 @@ impl ElfSectionIter {
 
 impl Iterator for ElfSectionIter {
     type Item = &'static ElfSection;
+
     fn next(&mut self) -> Option<&'static ElfSection> {
         if self.remaining_sections == 0 {
             None

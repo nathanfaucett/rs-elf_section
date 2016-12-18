@@ -11,4 +11,4 @@ repository = "https://github.com/nathanfaucett/rs-elf_section.git"
 homepage = "https://github.com/nathanfaucett/rs-elf_section"
 
 [dependencies.bitflags]
-version = "0.6.0"
+version = "0.7.0"
