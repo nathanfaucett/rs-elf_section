@@ -17,6 +17,7 @@ pub struct ElfSection {
 }
 
 impl ElfSection {
+    #[inline(always)]
     pub fn new(
         name: u32,
         kind: u32,
@@ -42,28 +43,39 @@ impl ElfSection {
             entry_size: entry_size,
         }
     }
+    #[inline(always)]
+    pub fn name(&self) -> u32 { self.name }
+    #[inline(always)]
+    pub fn kind(&self) -> u32 { self.kind }
+    #[inline(always)]
+    pub fn address(&self) -> usize { self.address }
+    #[inline(always)]
+    pub fn offset(&self) -> usize { self.offset }
+    #[inline(always)]
+    pub fn size(&self) -> usize { self.size }
+    #[inline(always)]
+    pub fn link(&self) -> u32 { self.link }
+    #[inline(always)]
+    pub fn info(&self) -> u32 { self.info }
+    #[inline(always)]
+    pub fn address_align(&self) -> usize { self.address_align }
+    #[inline(always)]
+    pub fn entry_size(&self) -> usize { self.entry_size }
 
-    pub fn get_name(&self) -> u32 { self.name }
-    pub fn get_kind(&self) -> u32 { self.kind }
-    pub fn get_type(&self) -> u32 { self.kind }
-    pub fn get_address(&self) -> usize { self.address }
-    pub fn get_offset(&self) -> usize { self.offset }
-    pub fn get_size(&self) -> usize { self.size }
-    pub fn get_link(&self) -> u32 { self.link }
-    pub fn get_info(&self) -> u32 { self.info }
-    pub fn get_address_align(&self) -> usize { self.address_align }
-    pub fn get_entry_size(&self) -> usize { self.entry_size }
-
-    pub fn get_start_address(&self) -> usize {
+    #[inline(always)]
+    pub fn start_address(&self) -> usize {
         self.address
     }
-    pub fn get_end_address(&self) -> usize {
+    #[inline(always)]
+    pub fn end_address(&self) -> usize {
         self.address + self.size
     }
-    pub fn get_flags(&self) -> ElfSectionFlags {
+    #[inline(always)]
+    pub fn flags(&self) -> ElfSectionFlags {
         ElfSectionFlags::from_bits_truncate(self.flags)
     }
+    #[inline(always)]
     pub fn is_allocated(&self) -> bool {
-        self.get_flags().contains(ELF_SECTION_ALLOCATED)
+        self.flags().contains(ELF_SECTION_ALLOCATED)
     }
 }

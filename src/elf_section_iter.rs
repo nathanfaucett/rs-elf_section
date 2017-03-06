@@ -1,5 +1,5 @@
 use elf_section::ElfSection;
-use elf_section_type::ElfSectionType;
+use elf_section_kind::ElfSectionKind;
 
 
 #[derive(Clone)]
@@ -10,6 +10,7 @@ pub struct ElfSectionIter {
 }
 
 impl ElfSectionIter {
+    #[inline(always)]
     pub fn new(
         current_section: &'static ElfSection,
         remaining_sections: u32,
@@ -26,6 +27,7 @@ impl ElfSectionIter {
 impl Iterator for ElfSectionIter {
     type Item = &'static ElfSection;
 
+    #[inline]
     fn next(&mut self) -> Option<&'static ElfSection> {
         if self.remaining_sections == 0 {
             None
@@ -34,7 +36,7 @@ impl Iterator for ElfSectionIter {
             let next_section_addr = (self.current_section as *const _ as u32) + self.entry_size;
             self.current_section = unsafe{ &*(next_section_addr as *const ElfSection) };
             self.remaining_sections -= 1;
-			if section.get_type() == ElfSectionType::Unused as u32 {
+			if section.kind() == ElfSectionKind::Unused as u32 {
 				self.next()
 			} else {
 	            Some(section)

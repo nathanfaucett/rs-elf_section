@@ -1,7 +1,7 @@
 
 
 #[repr(u32)]
-pub enum ElfSectionType {
+pub enum ElfSectionKind {
     Unused = 0,
     ProgramSection = 1,
     LinkerSymbolTable = 2,
